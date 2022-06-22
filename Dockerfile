@@ -2,6 +2,8 @@ FROM ubuntu:latest
 
 # install dev tools
 RUN apt-get update
+RUN apt-get install -y --no-install-recommends apt-utils
+
 RUN apt-get install -y curl tar sudo openssh-server openssh-client rsync
 
 # python and snakebite 
@@ -22,12 +24,11 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
 # java
-RUN apt-get install -y openjdk-8-jdk 
+RUN apt-get install -y openjdk-11-jdk
 # RUN mkdir -p /usr/java/default && \
 #     curl -Ls 'https://www.oracle.com/webapps/redirect/signon?nexturl=https://download.oracle.com/otn/java/jdk/8u333-b02/2dee051a5d0647d5be72a7c0abff270e/jdk-8u333-linux-aarch64.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
 #     tar --strip-components=1 -xz -C /usr/java/default/
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/default
-
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # hadoop
