@@ -24,13 +24,19 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
 # java
-RUN add-apt-repository ppa:openjdk-r/ppa
-RUN  apt-get update
-RUN apt install -y openjdk-11-jdk
+RUN apt-get update && \
+	apt-get install -y ca-certificates-java && \
+	apt-get clean && \
+	update-ca-certificates -f && \
+	rm -rf /var/lib/apt/lists/* && \
+	rm -rf /var/cache/oracle-jdk8-installer;
+
+# Setup JAVA_HOME, this is useful for docker commandline
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+RUN export JAVA_HOME
 # RUN mkdir -p /usr/java/default && \
 #     curl -Ls 'https://www.oracle.com/webapps/redirect/signon?nexturl=https://download.oracle.com/otn/java/jdk/8u333-b02/2dee051a5d0647d5be72a7c0abff270e/jdk-8u333-linux-aarch64.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
 #     tar --strip-components=1 -xz -C /usr/java/default/
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV PATH $PATH:$JAVA_HOME/bin
 
 # hadoop
