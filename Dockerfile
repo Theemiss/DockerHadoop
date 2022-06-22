@@ -24,7 +24,9 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
 # java
-RUN apt-get install -y openjdk-11-jdk
+RUN add-apt-repository ppa:openjdk-r/ppa
+RUN  apt-get update
+RUN apt install -y openjdk-11-jdk
 # RUN mkdir -p /usr/java/default && \
 #     curl -Ls 'https://www.oracle.com/webapps/redirect/signon?nexturl=https://download.oracle.com/otn/java/jdk/8u333-b02/2dee051a5d0647d5be72a7c0abff270e/jdk-8u333-linux-aarch64.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
 #     tar --strip-components=1 -xz -C /usr/java/default/
