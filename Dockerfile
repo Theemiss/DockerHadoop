@@ -24,20 +24,21 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
 
 # java
+# Install OpenJDK-8
 RUN apt-get update && \
-	apt-get install -y ca-certificates-java && \
-	apt-get clean && \
-	update-ca-certificates -f && \
-	rm -rf /var/lib/apt/lists/* && \
-	rm -rf /var/cache/oracle-jdk8-installer;
+    apt-get install -y openjdk-8-jdk && \
+    apt-get install -y ant && \
+    apt-get clean;
+    
+# Fix certificate issues
+RUN apt-get update && \
+    apt-get install ca-certificates-java && \
+    apt-get clean && \
+    update-ca-certificates -f;
 
-# Setup JAVA_HOME, this is useful for docker commandline
+# Setup JAVA_HOME -- useful for docker commandline
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 RUN export JAVA_HOME
-# RUN mkdir -p /usr/java/default && \
-#     curl -Ls 'https://www.oracle.com/webapps/redirect/signon?nexturl=https://download.oracle.com/otn/java/jdk/8u333-b02/2dee051a5d0647d5be72a7c0abff270e/jdk-8u333-linux-aarch64.tar.gz' -H 'Cookie: oraclelicense=accept-securebackup-cookie' | \
-#     tar --strip-components=1 -xz -C /usr/java/default/
-ENV PATH $PATH:$JAVA_HOME/bin
 
 # hadoop
 RUN wget  https://downloads.apache.org/hadoop/common/hadoop-3.3.2/hadoop-3.3.2.tar.gz
