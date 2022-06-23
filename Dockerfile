@@ -26,15 +26,15 @@ RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 # java
 # Install OpenJDK-8
 RUN apt-get update && \
-    apt-get install -y openjdk-8-jdk && \
-    apt-get install -y ant && \
-    apt-get clean;
-    
+  apt-get install -y openjdk-8-jdk && \
+  apt-get install -y ant && \
+  apt-get clean;
+
 # Fix certificate issues
 RUN apt-get update && \
-    apt-get install ca-certificates-java && \
-    apt-get clean && \
-    update-ca-certificates -f;
+  apt-get install ca-certificates-java && \
+  apt-get clean && \
+  update-ca-certificates -f;
 
 # Setup JAVA_HOME -- useful for docker commandline
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
@@ -45,8 +45,11 @@ RUN tar -xvf  hadoop-3.3.2.tar.gz -C /usr/local/
 RUN cd /usr/local && ln -s ./hadoop-3.3.2 hadoop
 
 ENV HADOOP_HOME /usr/local/hadoop
-RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64\nexport HADOOP_HOME=/usr/local/hadoop\nexport HADOOP_HOME=/usr/local/hadoop\n:' $HADOOP_HOME/etc/hadoop/hadoop-env.sh
-RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:' $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+# RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64\nexport HADOOP_HOME=/usr/local/hadoop\nexport HADOOP_HOME=/usr/local/hadoop\n:' $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+# RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:' $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+
+RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+RUN  echo "HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/" >> $HADOOP_HOME/etc/hadoop/hadoop-env.sh
 RUN . $HADOOP_HOME/etc/hadoop/hadoop-env.sh
 
 RUN mkdir $HADOOP_HOME/input
