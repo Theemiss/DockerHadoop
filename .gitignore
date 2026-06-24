@@ -1,0 +1,4 @@
+.cursor/
+.cursorrules
+.agents/
+*.cursor.md

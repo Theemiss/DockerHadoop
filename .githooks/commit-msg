@@ -1,0 +1,15 @@
+#!/bin/sh
+# Reject commit messages that mention Cursor or co-author trailers.
+
+msg_file="$1"
+if grep -qiE 'cursor|co-authored-by.*cursor|made with cursor' "$msg_file"; then
+  echo "commit-msg: blocked Cursor-related text in commit message."
+  exit 1
+fi
+
+if grep -q $'\342\200\224' "$msg_file"; then
+  echo "commit-msg: blocked em dash in commit message. Use hyphen instead."
+  exit 1
+fi
+
+exit 0

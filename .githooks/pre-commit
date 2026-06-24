@@ -1,0 +1,15 @@
+#!/bin/sh
+# Block Cursor artifacts and co-author trailers from commits.
+
+staged_files=$(git diff --cached --name-only)
+if printf '%s\n' "$staged_files" | grep -qiE '(^|/)\.cursor(/|$)|\.cursorrules$|\.agents(/|$)|\.cursor\.md$'; then
+  echo "pre-commit: blocked Cursor-related paths in staged files."
+  exit 1
+fi
+
+if git diff --cached | grep -q $'\342\200\224'; then
+  echo "pre-commit: blocked em dash character in staged changes. Use hyphen instead."
+  exit 1
+fi
+
+exit 0
