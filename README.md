@@ -4,7 +4,7 @@ Pseudo-distributed **Apache Hadoop 3.3.2** in a single Docker container - HDFS, 
 
 Runs as **root** with passwordless SSH on port **2122**, pre-formatted NameNode, and sample XML configs loaded into HDFS under `/user/root/input`.
 
-> **Related repo:** [Hadoop-Docker](https://github.com/Theemiss/Hadoop-Docker) is a separate Holberton School environment checker (`hduser`-based). This repo is a standalone pseudo-distributed cluster image.
+> **Related repo:** [Hadoop-Docker](https://github.com/Theemiss/Hadoop-Docker) is an alternate Hadoop Docker image (`hduser`-based). This repo is a standalone pseudo-distributed cluster image.
 
 ---
 

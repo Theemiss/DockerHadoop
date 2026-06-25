@@ -1,8 +1,14 @@
 #!/bin/sh
-# Reject commit messages that mention Cursor or co-author trailers.
+# Block Cursor co-author trailers and em dash in commit messages.
 
 msg_file="$1"
-if grep -qiE 'cursor|co-authored-by.*cursor|made with cursor' "$msg_file"; then
+
+if grep -qiE '^[Cc]o-[Aa]uthored-[Bb]y:.*([Cc]ursor|cursoragent@cursor\.com)' "$msg_file"; then
+  echo "commit-msg: blocked Cursor co-author trailer in commit message."
+  exit 1
+fi
+
+if grep -viE '^#' "$msg_file" | grep -qiE '\bmade with cursor\b|\bcomposed by cursor\b'; then
   echo "commit-msg: blocked Cursor-related text in commit message."
   exit 1
 fi
